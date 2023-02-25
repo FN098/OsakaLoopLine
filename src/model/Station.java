@@ -25,6 +25,7 @@ public final class Station {
   @Override
   public boolean equals(Object object) {
     var other = (Station) object;
-    return name.equals(other.name);
+    return name.equals(other.name) &&
+      number.equals(other.number);
   }
 }
