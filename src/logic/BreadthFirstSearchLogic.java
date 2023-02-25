@@ -5,7 +5,7 @@ import java.util.*;
 import model.*;
 
 // 幅優先探索
-public final class BreadthFirstSearchLogic extends SearchLogic {
+public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
 
   @Override
   protected boolean search(Graph graph, Node start, Node goal) {
