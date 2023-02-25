@@ -35,7 +35,7 @@ public class Main {
     showGraphInfo(graph, map);
 
     // 始点と終点を入力
-    Station from, to;
+    Object from, to;
     try {
       from = readStation(map, "始点を入力: ");
       to = readStation(map, "終点を入力: ");
@@ -79,11 +79,11 @@ public class Main {
   private static Station readStation(Map<Integer, Node> map, String message) throws IOException {
     System.out.print(message);
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in, STDIN_CHARSET_NAME));
-    var input = reader.readLine();
+    var inputString = reader.readLine();
 
     try {
       // 数字の場合
-      var key = Integer.parseInt(input);
+      var key = Integer.parseInt(inputString);
       if (map.containsKey(key)) {
         return (Station) map.get(key).getValue();
       } else {
@@ -93,7 +93,7 @@ public class Main {
     } catch (NumberFormatException e) {
       // 駅名の場合
       var station = map.values().stream().map(node -> (Station) node.getValue())
-        .filter(st -> st.getName().equals(input))
+        .filter(st -> st.getName().equals(inputString))
         .findFirst().orElse(UNKNOWN);
         
       return station;
