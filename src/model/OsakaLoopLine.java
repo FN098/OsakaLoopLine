@@ -6,25 +6,26 @@ public final class OsakaLoopLine {
   public static Graph createGraph() {
     String graphName = "大阪環状線";
 
-    var osaka = createNode("大阪");
-    var temma = createNode("天満");
-    var sakuranomiya = createNode("桜ノ宮");
-    var kyobashi = createNode("京橋");
-    var osakajo = createNode("大阪城");
-    var morinomiya = createNode("森ノ宮");
-    var tamatsukuri = createNode("玉造");
-    var tsuruhashi = createNode("鶴橋");
-    var momodani = createNode("桃谷");
-    var teradacho = createNode("寺田町");
-    var tennoji = createNode("天王寺");
-    var shinnimamiya = createNode("新今宮");
-    var imamiya = createNode("今宮");
-    var ashiharabashi = createNode("芦原橋");
-    var taisho = createNode("大正");
-    var bentencho = createNode("弁天町");
-    var nishikujo = createNode("西九条");
-    var noda = createNode("野田");
-    var fukushima = createNode("福島");
+    int num = 0;
+    var osaka = createNode(num++, "大阪");
+    var temma = createNode(num++, "天満");
+    var sakuranomiya = createNode(num++, "桜ノ宮");
+    var kyobashi = createNode(num++, "京橋");
+    var osakajo = createNode(num++, "大阪城");
+    var morinomiya = createNode(num++, "森ノ宮");
+    var tamatsukuri = createNode(num++, "玉造");
+    var tsuruhashi = createNode(num++, "鶴橋");
+    var momodani = createNode(num++, "桃谷");
+    var teradacho = createNode(num++, "寺田町");
+    var tennoji = createNode(num++, "天王寺");
+    var shinnimamiya = createNode(num++, "新今宮");
+    var imamiya = createNode(num++, "今宮");
+    var ashiharabashi = createNode(num++, "芦原橋");
+    var taisho = createNode(num++, "大正");
+    var bentencho = createNode(num++, "弁天町");
+    var nishikujo = createNode(num++, "西九条");
+    var noda = createNode(num++, "野田");
+    var fukushima = createNode(num++, "福島");
 
     var links = new ArrayList<Link>(Arrays.asList(
       new Link(osaka, fukushima, 65),
@@ -77,8 +78,8 @@ public final class OsakaLoopLine {
     return graph;
   }
 
-  private static Node createNode(String stationName) {
-    var station = new Station(stationName);
+  private static Node createNode(Integer number, String name) {
+    var station = new Station(number.toString(), name);
     var node = new Node(station);
     return node;
   }

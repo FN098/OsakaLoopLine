@@ -1,10 +1,16 @@
 package model;
 
 public final class Station {
+  private final String number;
   private final String name;
 
-  public Station(String name) {
+  public Station(String number, String name) {
+    this.number = number;
     this.name = name;
+  }
+
+  public String getNumber() {
+    return number;
   }
 
   public String getName() {

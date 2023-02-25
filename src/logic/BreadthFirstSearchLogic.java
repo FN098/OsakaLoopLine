@@ -28,7 +28,7 @@ public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
         .filter(neighbor -> !neighbor.getIsVisited())
         .forEach(neighbor -> {
           queue.add(neighbor);
-          neighbor.setParent(head);
+          neighbor.setParent(head);  // 親を設定（ルートを辿るために必要）
         });
     }
     return false;  // 解なし

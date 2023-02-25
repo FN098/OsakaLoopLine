@@ -12,9 +12,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import logic.*;
 import model.*;
@@ -22,23 +20,19 @@ import model.*;
 public class Main {
 
   private static final String STDIN_CHARSET_NAME = "shift-jis";
-  private static final Station UNKNOWN = new Station("unknown");
 
   public static void main(String[] args) {
     // グラフを作成
     var graph = OsakaLoopLine.createGraph();
 
-    // 全ノードに数字を割り当てる
-    var map = createNodeMap(graph);
-
     // グラフ情報を表示
-    showGraphInfo(graph, map);
+    showGraphInfo(graph);
 
     // 始点と終点を入力
     Object from, to;
     try {
-      from = readStation(map, "始点を入力: ");
-      to = readStation(map, "終点を入力: ");
+      from = readStation(graph, "始点を入力: ");
+      to = readStation(graph, "終点を入力: ");
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -55,48 +49,28 @@ public class Main {
     System.out.println("料金: " + route.getTotalCost() + " 円");
   }
 
-  private static Map<Integer, Node> createNodeMap(Graph graph) {
-    var nodes = graph.getNodes();
-    var map = IntStream.range(0, nodes.size())
-      .boxed()
-      .collect(Collectors.toMap(
-        i -> i,
-        i -> nodes.get(i)
-      ));
-
-    return map;
-  }
-
-  private static void showGraphInfo(Graph graph, Map<Integer, Node> map) {
-    var name = graph.getName();
-    var message = map.keySet().stream()
-      .map(key -> key + ": " + map.get(key))
+  private static void showGraphInfo(Graph graph) {
+    var message = graph.getNodes().stream()
+      .map(node -> (Station) node.getValue())
+      .map(station -> station.getNumber() + ": " + station.getName())
       .collect(Collectors.joining(", "));
-
-    System.out.println(name + ": " + message);
+    System.out.println(graph.getName() + ": " + message);
   }
 
-  private static Station readStation(Map<Integer, Node> map, String message) throws IOException {
+  private static Station readStation(Graph graph, String message) throws IOException {
     System.out.print(message);
-    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in, STDIN_CHARSET_NAME));
-    var inputString = reader.readLine();
 
-    try {
-      // 数字の場合
-      var key = Integer.parseInt(inputString);
-      if (map.containsKey(key)) {
-        return (Station) map.get(key).getValue();
-      } else {
-        return UNKNOWN;
-      }
+    var reader = new BufferedReader(new InputStreamReader(System.in, STDIN_CHARSET_NAME));
+    var line = reader.readLine();
 
-    } catch (NumberFormatException e) {
-      // 駅名の場合
-      var station = map.values().stream().map(node -> (Station) node.getValue())
-        .filter(st -> st.getName().equals(inputString))
-        .findFirst().orElse(UNKNOWN);
-        
-      return station;
+    var station = graph.getNodes().stream()
+      .map(n -> (Station) n.getValue())
+      .filter(s -> line.equals(s.getName()) || line.equals(s.getNumber()))
+      .findFirst();
+    
+    if (station.isPresent()) {
+      return station.get();
     }
+    return readStation(graph, message);
   }
 }
