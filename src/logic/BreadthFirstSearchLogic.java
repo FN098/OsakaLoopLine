@@ -11,14 +11,13 @@ public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
   protected boolean search(Graph graph, Node start, Node goal) {
     var queue = new LinkedList<Node>(); // BFSに使用するキュー
     queue.add(start); // スタートノードをキューに追加する
+    start.setIsVisited(true);
 
     while (!queue.isEmpty()) {
       var head = queue.remove(); // キューから先頭のノードを取り出す
       if (head.equals(goal)) {
         return true;  // ゴールが見つかったら探索終了
       }
-
-      head.setIsVisited(true);
 
       var neighbors = graph.findNeighborNodes(head);
 
@@ -28,6 +27,7 @@ public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
         .filter(neighbor -> !neighbor.getIsVisited())
         .forEach(neighbor -> {
           queue.add(neighbor);
+          neighbor.setIsVisited(true);
           neighbor.setParent(head);  // 親を設定（ルートを辿るために必要）
         });
     }
