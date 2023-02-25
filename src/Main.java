@@ -26,7 +26,11 @@ public class Main {
     var graph = OsakaLoopLine.createGraph();
 
     // グラフ情報を表示
-    showGraphInfo(graph);
+    var graphInfo = graph.getNodes().stream()
+      .map(node -> (Station) node.getValue())
+      .map(station -> station.getNumber() + ": " + station.getName())
+      .collect(Collectors.joining(", "));
+    System.out.println(graph.getName() + ": " + graphInfo);
 
     // 始点と終点を入力
     Object from, to;
@@ -39,22 +43,13 @@ public class Main {
 
     // 幅優先探索でルートを検索
     var result = new BreadthFirstSearchLogic().search(graph, from, to);
-    var route = result.getRoute();
 
     // 結果を表示
     System.out.println("始点: " + result.getFrom());
     System.out.println("終点: " + result.getTo());
-    System.out.println("ルート: " + route);
-    System.out.println("駅数: " + route.getTotalLinkCount());
-    System.out.println("料金: " + route.getTotalCost() + " 円");
-  }
-
-  private static void showGraphInfo(Graph graph) {
-    var message = graph.getNodes().stream()
-      .map(node -> (Station) node.getValue())
-      .map(station -> station.getNumber() + ": " + station.getName())
-      .collect(Collectors.joining(", "));
-    System.out.println(graph.getName() + ": " + message);
+    System.out.println("ルート: " + result.getRoute());
+    System.out.println("駅数: " + result.getRoute().getTotalLinkCount());
+    System.out.println("料金: " + result.getRoute().getTotalCost() + " 円");
   }
 
   private static Station readStation(Graph graph, String message) throws IOException {
