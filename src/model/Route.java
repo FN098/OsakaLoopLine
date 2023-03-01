@@ -13,8 +13,12 @@ public final class Route {
     this.links = links;
   }
 
-  public static  Route empty() {
+  public static Route empty() {
     return EMPTY;
+  }
+
+  public List<Link> getLinks() {
+    return Collections.unmodifiableList(links);
   }
 
   public int getTotalCost() {
