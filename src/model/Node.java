@@ -2,8 +2,9 @@ package model;
 
 public final class Node {
   private final Object value;
-  private Node parent;
+  private Node parent = null;
   private boolean isVisited = false;
+  private int step = 0;
 
   public Node(Object value) {
     this.value = value;
@@ -27,6 +28,14 @@ public final class Node {
 
   public void setIsVisited(boolean isVisited) {
     this.isVisited = isVisited;
+  }
+
+  public int getStep() {
+    return step;
+  }
+
+  public void setStep(int step) {
+    this.step = step;
   }
 
   @Override
