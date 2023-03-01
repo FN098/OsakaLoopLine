@@ -30,7 +30,7 @@ public class Main {
       .map(node -> (Station) node.getValue())
       .map(station -> station.getNumber() + ": " + station.getName())
       .collect(Collectors.joining(", "));
-    System.out.println(graph.getName() + ": " + graphInfo);
+    System.out.println(graph.getTitle() + ": " + graphInfo);
 
     // 始点と終点を入力
     Object from, to;
@@ -47,6 +47,7 @@ public class Main {
     // 結果を表示
     System.out.println("始点: " + result.getFrom());
     System.out.println("終点: " + result.getTo());
+    System.out.println("履歴: " + result.getHistory());
     System.out.println("ルート: " + result.getRoute());
     System.out.println("駅数: " + result.getRoute().getTotalLinkCount());
     System.out.println("料金: " + result.getRoute().getTotalCost() + " 円");
