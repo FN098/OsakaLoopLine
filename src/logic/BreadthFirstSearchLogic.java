@@ -13,8 +13,10 @@ public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
     queue.add(start); // スタートノードをキューに追加する
     start.setIsVisited(true);
 
+    var step = 0;
     while (!queue.isEmpty()) {
       var head = queue.remove(); // キューから先頭のノードを取り出す
+      head.setStep(++step);
       if (head.equals(goal)) {
         return true;  // ゴールが見つかったら探索終了
       }
@@ -23,7 +25,6 @@ public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
 
       // 隣接するノードが訪問済みでない場合は、キューに追加して訪問済みにする
       neighbors.stream()
-        .sorted((first, second) -> graph.findLink(head, first).getCost() - graph.findLink(head, second).getCost())
         .filter(neighbor -> !neighbor.getIsVisited())
         .forEach(neighbor -> {
           queue.add(neighbor);
