@@ -23,7 +23,7 @@ public class Main {
 
   public static void main(String[] args) {
     // グラフを作成
-    var graph = OsakaLoopLine.createGraph();
+    var graph = new OsakaLoopLine().createGraph();
 
     // グラフ情報を表示
     var graphInfo = graph.getNodes().stream()

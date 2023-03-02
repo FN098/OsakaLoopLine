@@ -3,7 +3,7 @@ import java.util.*;
 
 public final class OsakaLoopLine {
 
-  public static Graph createGraph() {
+  public Graph createGraph() {
     var title = "大阪環状線";
 
     var num = 0;
@@ -78,7 +78,7 @@ public final class OsakaLoopLine {
     return graph;
   }
 
-  private static Node createNode(Integer number, String name) {
+  private Node createNode(Integer number, String name) {
     var station = new Station(number.toString(), name);
     var node = new Node(station);
     return node;
