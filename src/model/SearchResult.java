@@ -13,6 +13,7 @@ public final class SearchResult {
       Object to, 
       Route route, 
       History history) {
+        
     this.graph = graph;
     this.from = from;
     this.to = to;
