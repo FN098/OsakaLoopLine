@@ -9,16 +9,16 @@ public final class Graph {
   private String title = "untitled";
 
   public Graph(Collection<Node> nodes, Collection<Link> links) {
-    this.nodes = nodes;
-    this.links = links;
+    this.nodes = Collections.unmodifiableCollection(nodes);
+    this.links = Collections.unmodifiableCollection(links);
   }
 
   public Collection<Node> getNodes() {
-    return Collections.unmodifiableCollection(nodes);
+    return nodes;
   }
 
   public Collection<Link> getLinks() {
-    return Collections.unmodifiableCollection(links);
+    return links;
   }
 
   public String getTitle() {

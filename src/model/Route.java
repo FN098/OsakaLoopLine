@@ -10,7 +10,7 @@ public final class Route {
   private final List<Link> links;
 
   public Route(List<Link> links) {
-    this.links = links;
+    this.links = Collections.unmodifiableList(links);
   }
 
   public static Route empty() {
@@ -18,7 +18,7 @@ public final class Route {
   }
 
   public List<Link> getLinks() {
-    return Collections.unmodifiableList(links);
+    return links;
   }
 
   public int getTotalCost() {

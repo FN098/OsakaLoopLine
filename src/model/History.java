@@ -10,7 +10,7 @@ public final class History {
   private final List<Node> nodes;
 
   public History(List<Node> nodes) {
-    this.nodes = nodes;
+    this.nodes = Collections.unmodifiableList(nodes);
   }
 
   public static History empty() {
@@ -18,7 +18,7 @@ public final class History {
   }
 
   public List<Node> getNodes() {
-    return Collections.unmodifiableList(nodes);
+    return nodes;
   }
 
   @Override
