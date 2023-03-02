@@ -28,7 +28,7 @@ public final class OsakaLoopLine {
     var fukushima = createNode(num++, "福島");
 
     var links = new ArrayList<Link>(Arrays.asList(
-      new Link(osaka, fukushima, 65),
+      // A区間
       new Link(osaka, temma, 50),
       new Link(temma, osaka, 50),
       new Link(temma, sakuranomiya, 50),
@@ -39,6 +39,7 @@ public final class OsakaLoopLine {
       new Link(osakajokoen, kyobashi, 50),
       new Link(osakajokoen, morinomiya, 50),
       new Link(morinomiya, osakajokoen, 50),
+      // B区間
       new Link(morinomiya, tamatsukuri, 55),
       new Link(tamatsukuri, morinomiya, 55),
       new Link(tamatsukuri, tsuruhashi, 55),
@@ -49,6 +50,7 @@ public final class OsakaLoopLine {
       new Link(teradacho, momodani, 55),
       new Link(teradacho, tennoji, 55),
       new Link(tennoji, teradacho, 55),
+      // C区間
       new Link(tennoji, shinnimamiya, 60),
       new Link(shinnimamiya, tennoji, 60),
       new Link(shinnimamiya, imamiya, 60),
@@ -57,6 +59,7 @@ public final class OsakaLoopLine {
       new Link(ashiharabashi, imamiya, 60),
       new Link(ashiharabashi, taisho, 60),
       new Link(taisho, ashiharabashi, 60),
+      // D区間
       new Link(taisho, bentencho, 65),
       new Link(bentencho, taisho, 65),
       new Link(bentencho, nishikujo, 65),
@@ -65,7 +68,8 @@ public final class OsakaLoopLine {
       new Link(noda, nishikujo, 65),
       new Link(noda, fukushima, 65),
       new Link(fukushima, noda, 65),
-      new Link(fukushima, osaka, 65)
+      new Link(fukushima, osaka, 65),
+      new Link(osaka, fukushima, 65)
     ));
 
     var nodes = links.stream()
