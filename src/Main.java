@@ -47,7 +47,7 @@ public class Main {
     // 結果を表示
     System.out.println("始点: " + result.getFrom());
     System.out.println("終点: " + result.getTo());
-    System.out.println("履歴: " + result.getHistory());
+    System.out.println("探索履歴: " + result.getHistory());
     System.out.println("ルート: " + result.getRoute());
     System.out.println("駅数: " + result.getRoute().getTotalLinkCount());
     System.out.println("料金: " + result.getRoute().getTotalCost() + " 円");
