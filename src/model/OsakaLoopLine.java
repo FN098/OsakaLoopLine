@@ -1,9 +1,8 @@
 package model;
 import java.util.*;
 
-public final class OsakaLoopLine implements GraphFactory {
+public final class OsakaLoopLine {
 
-  @Override
   public Graph createGraph() {
     var title = "大阪環状線";
 

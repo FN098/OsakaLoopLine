@@ -1,9 +1,8 @@
 package model;
 import java.util.*;
 
-public final class SimpleGraph implements GraphFactory {
+public final class SimpleGraph {
 
-  @Override
   public Graph createGraph() {
     var title = "シンプルなグラフ";
 
