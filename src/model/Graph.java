@@ -6,11 +6,16 @@ import java.util.function.Predicate;
 public final class Graph {
   private final Collection<Node> nodes;
   private final Collection<Link> links;
-  private String title = "untitled";
+  private final String title;
+
+  public Graph(Collection<Node> nodes, Collection<Link> links, String title) {
+    this.nodes = nodes;
+    this.links = links;
+    this.title = title;
+  }
 
   public Graph(Collection<Node> nodes, Collection<Link> links) {
-    this.nodes = Collections.unmodifiableCollection(nodes);
-    this.links = Collections.unmodifiableCollection(links);
+    this(nodes, links, "untitled");
   }
 
   public Collection<Node> getNodes() {
@@ -23,10 +28,6 @@ public final class Graph {
 
   public String getTitle() {
     return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
   }
 
   public Node findNode(Predicate<? super Node> predicate) {

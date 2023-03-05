@@ -77,8 +77,7 @@ public final class OsakaLoopLine {
       .distinct()
       .toList();
 
-    var graph = new Graph(nodes, links);
-    graph.setTitle(title);
+    var graph = new Graph(nodes, links, title);
     return graph;
   }
 
