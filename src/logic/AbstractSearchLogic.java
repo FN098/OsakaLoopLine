@@ -23,7 +23,7 @@ public abstract class AbstractSearchLogic implements SearchLogic {
       visited.add(head); // 訪問リストに追加
     }
 
-    var route = createRoute(graph, start, goal, visited);
+    var route = createRoute(graph, start, goal);
     var history = new History(visited);
     return new SearchResult(graph, from, to, route, history);
   }
@@ -45,6 +45,13 @@ public abstract class AbstractSearchLogic implements SearchLogic {
   protected abstract Node stepNext();
 
   /**
+   * 子ノードをキーとし、親ノードを値とするマップを取得します。
+   * 
+   * @return 親ノードのマップ
+   */
+  protected abstract Map<Node, Node> getParentNodeMap();
+
+  /**
    * スタートからゴールまでのルートを作成します。
    * 
    * @param graph 探索対象のグラフ
@@ -56,22 +63,20 @@ public abstract class AbstractSearchLogic implements SearchLogic {
   private Route createRoute(
       Graph graph, 
       Node start, 
-      Node goal,
-      List<Node> visited) {
-
-    // 訪問リストを反転（ゴール→スタート）
-    var list = new ArrayList<>(visited);
-    Collections.reverse(list);
+      Node goal) {
 
     // ゴールからスタートまでの親を辿る
     Node head = goal;
     var links = new ArrayList<Link>();
-    for (var parent : list) {
+    var parents = getParentNodeMap();
+    while (!Objects.equals(head, start)) {
+      var parent = parents.get(head);
       var link = graph.findLink(parent, head);
-      if (link != null) {
-        links.add(link);
-        head = parent;
+      if (Objects.isNull(link)) {
+        throw new IllegalStateException("リンクが見つかりません");
       }
+      links.add(link);
+      head = parent;
     }
     
     // 経路を反転（スタート→ゴール）

@@ -8,13 +8,16 @@ import model.*;
 public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
   private Graph graph;
   private final LinkedList<Node> queue = new LinkedList<>(); // BFSに使用するキュー
-  private final Set<Node> visited = new HashSet<>(); // 探索済みのノードセット
+  private final Set<Node> visited = new HashSet<>(); // 探索済みノードのセット
+  private final Map<Node, Node> parents = new HashMap<>();  // 親ノードのマップ
 
   @Override
   protected void initialize(Graph graph, Node start, Node goal) {
     this.graph = graph;
     this.queue.clear();
     this.visited.clear();
+    this.parents.clear();
+    
     queue.add(start); // スタートノードをキューに追加する
     visited.add(start);
   }
@@ -33,8 +36,14 @@ public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
       .forEach(neighbor -> {
         queue.add(neighbor);
         visited.add(neighbor);
+        parents.put(neighbor, head);
       });
 
     return head;
+  }
+
+  @Override
+  protected Map<Node, Node> getParentNodeMap() {
+    return Collections.unmodifiableMap(parents);
   }
 }
