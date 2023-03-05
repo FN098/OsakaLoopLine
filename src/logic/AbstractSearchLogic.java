@@ -8,9 +8,9 @@ public abstract class AbstractSearchLogic implements SearchLogic {
   public SearchResult search(Graph graph, Object from, Object to) {
     var start = graph.findNodeByValue(from);
     var goal = graph.findNodeByValue(to);
-    assert start != null && goal != null;
+    assert start.isPresent() && goal.isPresent();
     
-    initialize(graph, start, goal);
+    initialize(graph, start.get(), goal.get());
 
     do {
       stepNext();

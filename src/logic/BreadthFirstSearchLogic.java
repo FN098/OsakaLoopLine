@@ -72,9 +72,9 @@ public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
       assert parent != null;
 
       var link = graph.findLink(parent, head);
-      assert link != null;
+      assert link.isPresent();
       
-      links.add(link);
+      links.add(link.get());
       head = parent;
     }
     

@@ -1,17 +1,30 @@
 package model;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public final class SimpleGraph {
+  private final String title;
+  private final Graph graph;
 
-  public Graph createGraph() {
-    var title = "シンプルなグラフ";
+  public SimpleGraph() {
+    this.title = "シンプルグラフ";
+    this.graph = createGraph();
+  }
 
-    var num = 0;
-    var node1 = createNode(num++, "A");
-    var node2 = createNode(num++, "B");
-    var node3 = createNode(num++, "C");
-    var node4 = createNode(num++, "D");
-    var node5 = createNode(num++, "E");
+  public String getTitle() {
+    return title;
+  }
+  
+  public Graph getGraph() {
+    return graph;
+  }
+
+  private Graph createGraph() {
+    var node1 = new Node("A");
+    var node2 = new Node("B");
+    var node3 = new Node("C");
+    var node4 = new Node("D");
+    var node5 = new Node("E");
 
     var links = new ArrayList<Link>(Arrays.asList(
       new Link(node1, node2, 1),
@@ -33,14 +46,23 @@ public final class SimpleGraph {
       .distinct()
       .toList();
 
-    var graph = new Graph(nodes, links, title);
+    var graph = new Graph(nodes, links);
     return graph;
   }
 
-  private Node createNode(Integer number, String name) {
-    var station = new Station(number.toString(), name);
-    var node = new Node(station);
-    return node;
+  public String getInfo() {
+    var info = graph.getNodes().stream()
+      .map(node -> (String) node.getValue())
+      .collect(Collectors.joining(", "));
+      
+    return title + ": " + info;
+  }
+
+  public Optional<String> findValue(String value) {
+    return graph.getNodes().stream()
+      .map(node -> (String) node.getValue())
+      .filter(station -> station.equals(value))
+      .findFirst();
   }
 }
 

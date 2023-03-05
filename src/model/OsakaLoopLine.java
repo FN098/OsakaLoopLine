@@ -1,11 +1,25 @@
 package model;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public final class OsakaLoopLine {
+  private final String title;
+  private final Graph graph;
 
-  public Graph createGraph() {
-    var title = "大阪環状線";
+  public OsakaLoopLine() {
+    this.title = "大阪環状線";
+    this.graph = createGraph();
+  }
 
+  public String getTitle() {
+    return title;
+  }
+  
+  public Graph getGraph() {
+    return graph;
+  }
+
+  private Graph createGraph() {
     var num = 0;
     var osaka = createNode(num++, "大阪");
     var temma = createNode(num++, "天満");
@@ -77,7 +91,7 @@ public final class OsakaLoopLine {
       .distinct()
       .toList();
 
-    var graph = new Graph(nodes, links, title);
+    var graph = new Graph(nodes, links);
     return graph;
   }
 
@@ -85,6 +99,29 @@ public final class OsakaLoopLine {
     var station = new Station(number.toString(), name);
     var node = new Node(station);
     return node;
+  }
+
+  public String getInfo() {
+    var info = graph.getNodes().stream()
+      .map(node -> (Station) node.getValue())
+      .map(station -> station.getNumber() + ": " + station.getName())
+      .collect(Collectors.joining(", "));
+      
+    return title + ": " + info;
+  }
+
+  public Optional<Station> findStationByNumber(String number) {
+    return graph.getNodes().stream()
+      .map(node -> (Station) node.getValue())
+      .filter(station -> station.getNumber().equals(number))
+      .findFirst();
+  }
+
+  public Optional<Station> findStationByName(String name) {
+    return graph.getNodes().stream()
+      .map(node -> (Station) node.getValue())
+      .filter(station -> station.getName().equals(name))
+      .findFirst();
   }
 }
 

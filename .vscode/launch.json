@@ -6,9 +6,18 @@
   "configurations": [
     {
       "type": "java",
-      "name": "Debug (Launch)",
+      "name": "大阪環状線",
       "request": "launch",
-      "mainClass": "Main",
+      "mainClass": "OsakaLoopLineRunner",
+      "vmArgs": "-enableassertions",
+      "args": [],
+      "projectName": "OsakaLoopLine_95776768"
+    },
+    {
+      "type": "java",
+      "name": "シンプルグラフ",
+      "request": "launch",
+      "mainClass": "SimpleGraphRunner",
       "vmArgs": "-enableassertions",
       "args": [],
       "projectName": "OsakaLoopLine_95776768"

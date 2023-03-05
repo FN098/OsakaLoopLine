@@ -6,16 +6,10 @@ import java.util.function.Predicate;
 public final class Graph {
   private final Collection<Node> nodes;
   private final Collection<Link> links;
-  private final String title;
-
-  public Graph(Collection<Node> nodes, Collection<Link> links, String title) {
-    this.nodes = nodes;
-    this.links = links;
-    this.title = title;
-  }
 
   public Graph(Collection<Node> nodes, Collection<Link> links) {
-    this(nodes, links, "untitled");
+    this.nodes = nodes;
+    this.links = links;
   }
 
   public Collection<Node> getNodes() {
@@ -26,22 +20,18 @@ public final class Graph {
     return links;
   }
 
-  public String getTitle() {
-    return title;
+  public Optional<Node> findNode(Predicate<? super Node> predicate) {
+    return nodes.stream().filter(predicate).findFirst();
   }
 
-  public Node findNode(Predicate<? super Node> predicate) {
-    return nodes.stream().filter(predicate).findFirst().orElse(null);
+  public Optional<Node> findNodeByValue(Object value) {
+    return nodes.stream().filter(node -> node.getValue().equals(value)).findFirst();
   }
 
-  public Node findNodeByValue(Object value) {
-    return nodes.stream().filter(node -> node.getValue().equals(value)).findFirst().orElse(null);
-  }
-
-  public Link findLink(Node from, Node to) {
+  public Optional<Link> findLink(Node from, Node to) {
     return links.stream().filter(link -> 
         link.getFrom().equals(from) &&
-        link.getTo().equals(to)).findFirst().orElse(null);
+        link.getTo().equals(to)).findFirst();
   }
 
   public List<Node> findNeighborNodes(Node node) {
