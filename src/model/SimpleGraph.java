@@ -1,7 +1,7 @@
 package model;
 import java.util.*;
 
-public final class SimpleGraph implements GraphGenerator {
+public final class SimpleGraph implements GraphFactory {
 
   @Override
   public Graph createGraph() {

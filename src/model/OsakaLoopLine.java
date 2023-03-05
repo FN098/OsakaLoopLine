@@ -1,7 +1,7 @@
 package model;
 import java.util.*;
 
-public final class OsakaLoopLine implements GraphGenerator {
+public final class OsakaLoopLine implements GraphFactory {
 
   @Override
   public Graph createGraph() {

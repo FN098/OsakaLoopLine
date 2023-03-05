@@ -1,5 +1,5 @@
 package model;
 
-public interface GraphGenerator {
+public interface GraphFactory {
   public Graph createGraph();
 }
