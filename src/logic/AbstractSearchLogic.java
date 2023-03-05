@@ -23,7 +23,8 @@ public abstract class AbstractSearchLogic implements SearchLogic {
       visited.add(head); // 訪問リストに追加
     }
 
-    var route = createRoute(graph, start, goal);
+    var parents = getParentNodeMap();
+    var route = createRoute(graph, start, goal, parents);
     var history = new History(visited);
     return new SearchResult(graph, from, to, route, history);
   }
@@ -62,12 +63,12 @@ public abstract class AbstractSearchLogic implements SearchLogic {
   private Route createRoute(
       Graph graph, 
       Node start, 
-      Node goal) {
+      Node goal,
+      Map<Node, Node> parents) {
 
     // ゴールからスタートまでの親を辿る
     Node head = goal;
     var links = new ArrayList<Link>();
-    var parents = getParentNodeMap();
     while (!Objects.equals(head, start)) {
       var parent = parents.get(head);
       if (Objects.isNull(parent)) {
