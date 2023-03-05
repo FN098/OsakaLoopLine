@@ -6,56 +6,76 @@ import model.*;
 
 public abstract class AbstractSearchLogic implements SearchLogic {
 
+  @Override
   public SearchResult search(Graph graph, Object from, Object to) {
     var start = graph.findNodeByValue(from);
     var goal = graph.findNodeByValue(to);
-    if (start != null && goal != null) {
-      if (search(graph, start, goal)) {
-        var route = createRoute(graph, start, goal);
-        var history = createHistory(graph, start, goal);
-        return new SearchResult(graph, from, to, route, history);
-      }
+    if (Objects.isNull(start) || Objects.isNull(goal)) {  // ノードが見つからなければ探索終了
+      return new SearchResult(graph, from, to, Route.empty(), History.empty());
     }
-    return new SearchResult(graph, from, to, Route.empty(), History.empty());
-  }
-
-  // 子クラスで実装する検索メソッド
-  protected abstract boolean search(Graph graph, Node start, Node goal);
-
-  // ゴールからスタートまでの親を辿りルートを作成
-  private Route createRoute(Graph graph, Node start, Node goal) {
-    var links = new ArrayList<Link>();
-    var head = goal;
-
-    while (head != start) {
-      var parent = head.getParent();
-      if (parent == null) {
-        return Route.empty();
-      }
-      
-      var link = graph.findLink(parent, head);
-      if (link == null) {
-        return Route.empty();
-      }
-
-      links.add(link);
-      head = parent;
-    }
-
-    Collections.reverse(links);
     
-    var route = new Route(links);
-    return route;
+    initialize(graph, start, goal);
+
+    Node head = null;
+    var visited = new ArrayList<Node>();
+    while (!Objects.equals(head, goal)) { // ゴールが見つかるまで探索を続ける
+      head = stepNext(); // 次のノードを探索
+      visited.add(head); // 訪問リストに追加
+    }
+
+    var route = createRoute(graph, start, goal, visited);
+    var history = new History(visited);
+    return new SearchResult(graph, from, to, route, history);
   }
+  
+  /**
+   * グラフの探索状態を初期化します。
+   * 
+   * @param graph 探索対象のグラフ
+   * @param start 探索開始ノード
+   * @param goal 探索終了ノード
+   */
+  protected abstract void initialize(Graph graph, Node start, Node goal);
 
-  // ステップ数順にノードを並べ替えて履歴を作成
-  private History createHistory(Graph graph, Node start, Node goal) {
-    var orderedNodes = graph.getNodes().stream()
-      .filter(node -> node.getStep() > 0)
-      .sorted(Comparator.comparingInt(Node::getStep))
-      .toList();
+  /**
+   * 次のノードを探索します。
+   * 
+   * @return 訪問したノード
+   */
+  protected abstract Node stepNext();
 
-    var history = new History(orderedNodes);
-    return history;
+  /**
+   * スタートからゴールまでのルートを作成します。
+   * 
+   * @param graph 探索対象のグラフ
+   * @param start 探索開始ノード
+   * @param goal 探索終了ノード
+   * @param visited 訪問リスト
+   * @return Routeオブジェクト
+   */
+  private Route createRoute(
+      Graph graph, 
+      Node start, 
+      Node goal,
+      List<Node> visited) {
+
+    // 訪問リストを反転（ゴール→スタート）
+    var list = new ArrayList<>(visited);
+    Collections.reverse(list);
+
+    // ゴールからスタートまでの親を辿る
+    Node head = goal;
+    var links = new ArrayList<Link>();
+    for (var parent : list) {
+      var link = graph.findLink(parent, head);
+      if (link != null) {
+        links.add(link);
+        head = parent;
+      }
+    }
+    
+    // 経路を反転（スタート→ゴール）
+    Collections.reverse(links);
+    return new Route(links);
   }
 }

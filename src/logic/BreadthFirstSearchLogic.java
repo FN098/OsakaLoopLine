@@ -6,32 +6,35 @@ import model.*;
 
 // 幅優先探索
 public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
+  private Graph graph;
+  private final LinkedList<Node> queue = new LinkedList<>(); // BFSに使用するキュー
+  private final Set<Node> visited = new HashSet<>(); // 探索済みのノードセット
 
   @Override
-  protected boolean search(Graph graph, Node start, Node goal) {
-    var queue = new LinkedList<Node>(); // BFSに使用するキュー
+  protected void initialize(Graph graph, Node start, Node goal) {
+    this.graph = graph;
+    this.queue.clear();
+    this.visited.clear();
     queue.add(start); // スタートノードをキューに追加する
-    start.setIsVisited(true);
+    visited.add(start);
+  }
 
-    var step = 0;
-    while (!queue.isEmpty()) {
-      var head = queue.remove(); // キューから先頭のノードを取り出す
-      head.setStep(++step);
-      if (head.equals(goal)) {
-        return true;  // ゴールが見つかったら探索終了
-      }
-
-      var neighbors = graph.findNeighborNodes(head);
-
-      // 隣接するノードが訪問済みでない場合は、キューに追加して訪問済みにする
-      neighbors.stream()
-        .filter(neighbor -> !neighbor.getIsVisited())
-        .forEach(neighbor -> {
-          queue.add(neighbor);
-          neighbor.setIsVisited(true);
-          neighbor.setParent(head);  // 親を設定（ルートを辿るために必要）
-        });
+  @Override
+  protected Node stepNext() {
+    if (queue.isEmpty()) {
+      throw new IllegalStateException("初期化されていないか、探索するノードがありません。");
     }
-    return false;  // 解なし
+
+    var head = queue.remove(); // キューから先頭のノードを取り出す
+
+    // 隣接するノードが訪問済みでない場合は、キューに追加して訪問済みにする
+    graph.findNeighborNodes(head).stream()
+      .filter(neighbor -> !visited.contains(neighbor))
+      .forEach(neighbor -> {
+        queue.add(neighbor);
+        visited.add(neighbor);
+      });
+
+    return head;
   }
 }
