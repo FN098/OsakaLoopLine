@@ -12,7 +12,7 @@ public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
   private final LinkedList<Node> queue = new LinkedList<>(); // BFSに使用するキュー
   private final List<Node> visited = new ArrayList<>(); // 探索済みノードのリスト
   private final Map<Node, Node> parents = new HashMap<>();  // 親ノードのマップ
-  private boolean isFinished = false;
+  private boolean isFinished;
 
   @Override
   public void initialize(Graph graph, Node start, Node goal) {
@@ -22,6 +22,7 @@ public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
     this.queue.clear();
     this.visited.clear();
     this.parents.clear();
+    isFinished = false;
     
     queue.add(start); // スタートノードをキューに追加する
     visited.add(start);
