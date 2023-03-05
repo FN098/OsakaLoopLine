@@ -57,7 +57,6 @@ public abstract class AbstractSearchLogic implements SearchLogic {
    * @param graph 探索対象のグラフ
    * @param start 探索開始ノード
    * @param goal 探索終了ノード
-   * @param visited 訪問リスト
    * @return Routeオブジェクト
    */
   private Route createRoute(
@@ -71,6 +70,9 @@ public abstract class AbstractSearchLogic implements SearchLogic {
     var parents = getParentNodeMap();
     while (!Objects.equals(head, start)) {
       var parent = parents.get(head);
+      if (Objects.isNull(parent)) {
+        throw new IllegalStateException("親ノードが見つかりません");
+      }
       var link = graph.findLink(parent, head);
       if (Objects.isNull(link)) {
         throw new IllegalStateException("リンクが見つかりません");
