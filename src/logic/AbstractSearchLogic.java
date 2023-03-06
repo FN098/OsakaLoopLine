@@ -3,14 +3,26 @@ package logic;
 import model.*;
 
 public abstract class AbstractSearchLogic implements SearchLogic {
+  protected final Graph graph;
+  protected final Object from;
+  protected final Object to;
+
+  /**
+   * グラフ探索オブジェクトを生成します。
+   * 
+   * @param graph 探索対象のグラフ
+   * @param from 出発地
+   * @param to 目的地
+   */
+  public AbstractSearchLogic(Graph graph, Object from, Object to) {
+    this.graph = graph;
+    this.from = from;
+    this.to = to;
+  }
 
   @Override
-  public SearchResult execute(Graph graph, Object from, Object to) {
-    var start = graph.findNodeByValue(from);
-    var goal = graph.findNodeByValue(to);
-    assert start.isPresent() && goal.isPresent();
-    
-    initialize(graph, start.get(), goal.get());
+  public SearchResult execute() {
+    initialize();
 
     do {
       stepNext();
@@ -23,12 +35,8 @@ public abstract class AbstractSearchLogic implements SearchLogic {
   
   /**
    * グラフの探索状態を初期化します。
-   * 
-   * @param graph 探索対象のグラフ
-   * @param start 探索開始ノード
-   * @param goal 探索終了ノード
    */
-  protected abstract void initialize(Graph graph, Node start, Node goal);
+  protected abstract void initialize();
 
   /**
    * 次のノードを探索します。

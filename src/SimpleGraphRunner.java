@@ -15,7 +15,7 @@ public class SimpleGraphRunner {
 
     // 幅優先探索でルートを検索
     var graph = simpleGraph.getGraph();
-    var result = new BreadthFirstSearchLogic().execute(graph, from, to);
+    var result = new BreadthFirstSearchLogic(graph, from, to).execute();
 
     // 結果を表示
     System.out.println("始点: " + result.getFrom());

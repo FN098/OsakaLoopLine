@@ -6,19 +6,25 @@ import model.*;
 
 // 幅優先探索
 public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
-  private Graph graph;
-  private Node start;
-  private Node goal;
+  private final Node start;
+  private final Node goal;
   private final LinkedList<Node> queue = new LinkedList<>(); // BFSに使用するキュー
   private final List<Node> visited = new ArrayList<>(); // 探索済みノードのリスト
   private final Map<Node, Node> parents = new HashMap<>();  // 親ノードのマップ
-  private boolean isFinished;
+  private boolean isFinished = false;
+
+  public BreadthFirstSearchLogic(Graph graph, Object from, Object to) {
+    super(graph, from, to);
+
+    start = graph.findNodeByValue(from).orElse(null);
+    goal = graph.findNodeByValue(to).orElse(null);
+    if (start == null || goal == null) {
+      throw new IllegalArgumentException("Start or goal node is not found.");
+    }
+  }
 
   @Override
-  protected void initialize(Graph graph, Node start, Node goal) {
-    this.graph = graph;
-    this.start = start;
-    this.goal = goal;
+  protected void initialize() {
     this.queue.clear();
     this.visited.clear();
     this.parents.clear();
