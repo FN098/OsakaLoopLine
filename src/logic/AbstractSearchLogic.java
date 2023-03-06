@@ -5,7 +5,7 @@ import model.*;
 public abstract class AbstractSearchLogic implements SearchLogic {
 
   @Override
-  public SearchResult search(Graph graph, Object from, Object to) {
+  public SearchResult execute(Graph graph, Object from, Object to) {
     var start = graph.findNodeByValue(from);
     var goal = graph.findNodeByValue(to);
     assert start.isPresent() && goal.isPresent();
@@ -28,31 +28,31 @@ public abstract class AbstractSearchLogic implements SearchLogic {
    * @param start 探索開始ノード
    * @param goal 探索終了ノード
    */
-  public abstract void initialize(Graph graph, Node start, Node goal);
+  protected abstract void initialize(Graph graph, Node start, Node goal);
 
   /**
    * 次のノードを探索します。
    */
-  public abstract void stepNext();
+  protected abstract void stepNext();
 
   /**
    * 経路が見つかったかどうか判定します。
    * 
    * @return 経路が見つかっていればtrue
    */
-  public abstract boolean isFoundRoute();
+  protected abstract boolean isFoundRoute();
 
   /**
    * 経路を作成します。
    * 
    * @return Routeオブジェクト
    */
-  public abstract Route createRoute();
+  protected abstract Route createRoute();
 
   /**
    * 探索履歴を作成します。
    * 
    * @return Historyオブジェクト
    */
-  public abstract History createHistory();
+  protected abstract History createHistory();
 }

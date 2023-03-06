@@ -11,5 +11,5 @@ public interface SearchLogic {
    * @param to 目的地
    * @return 探索結果
    */
-  public SearchResult search(Graph graph, Object from, Object to);
+  public SearchResult execute(Graph graph, Object from, Object to);
 }
