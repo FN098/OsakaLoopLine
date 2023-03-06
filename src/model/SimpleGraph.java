@@ -58,7 +58,7 @@ public final class SimpleGraph {
     return title + ": " + info;
   }
 
-  public Optional<String> findValue(String value) {
+  public Optional<String> findText(String value) {
     return graph.getNodes().stream()
       .map(node -> (String) node.getValue())
       .filter(str -> str.equals(value))
