@@ -61,7 +61,7 @@ public final class SimpleGraph {
   public Optional<String> findValue(String value) {
     return graph.getNodes().stream()
       .map(node -> (String) node.getValue())
-      .filter(station -> station.equals(value))
+      .filter(str -> str.equals(value))
       .findFirst();
   }
 }
