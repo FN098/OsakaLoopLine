@@ -13,19 +13,14 @@ public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
   private final Map<Node, Node> parents = new HashMap<>();  // 親ノードのマップ
   private boolean isFinished = false;
 
-  /**
-   * 幅優先探索オブジェクトを生成します。
-   * 
-   * @param graph 探索対象のグラフ
-   * @param from 出発地
-   * @param to 目的地
-   */
   public BreadthFirstSearchLogic(SearchCondition condition) {
     super(condition);
 
     graph = condition.getGraph();
-    start = graph.findNodeByValue(condition.getFrom()).orElse(null);
-    goal = graph.findNodeByValue(condition.getTo()).orElse(null);
+    var from = condition.getFrom();
+    var to = condition.getTo();
+    start = graph.findNodeByValue(from).orElse(null);
+    goal = graph.findNodeByValue(to).orElse(null);
     if (start == null || goal == null) {
       throw new IllegalArgumentException("Start or goal node is not found.");
     }
@@ -83,12 +78,8 @@ public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
     Node head = goal;
     while (!Objects.equals(head, start)) {
       var parent = parents.get(head);
-      assert parent != null;
-
-      var link = graph.findLink(parent, head);
-      assert link.isPresent();
-      
-      links.add(link.get());
+      var link = graph.findLink(parent, head).get();
+      links.add(link);
       head = parent;
     }
     
