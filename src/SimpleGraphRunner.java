@@ -13,8 +13,8 @@ public class SimpleGraphRunner {
     System.out.println(simpleGraph.getInfo());
 
     // 始点と終点を入力
-    var from = readText(simpleGraph, "始点を入力: ");
-    var to = readText(simpleGraph, "終点を入力: ");
+    var from = readInputValue(simpleGraph, "始点を入力: ");
+    var to = readInputValue(simpleGraph, "終点を入力: ");
 
     // 幅優先探索でルートを検索
     var condition = new SearchCondition(graph, from, to);
@@ -29,16 +29,15 @@ public class SimpleGraphRunner {
     System.out.println("料金: " + result.getRoute().getTotalCost() + " 円");
   }
 
-  private static String readText(SimpleGraph simpleGraph, String message) {
+  private static Object readInputValue(SimpleGraph simpleGraph, String message) {
     System.out.print(message);
     var line = new ConsoleReader().readLine();
 
-    var text = simpleGraph.findText(line);
-    if (text.isPresent()) {
-      return text.get();
+    var value = simpleGraph.findText(line).orElse(null);
+    if (value != null) {
+      return value;
     }
 
-    System.out.println("もう一度入力してください。");
-    return readText(simpleGraph, message);
+    return readInputValue(simpleGraph, "もう一度入力してください。");
   }
 }
