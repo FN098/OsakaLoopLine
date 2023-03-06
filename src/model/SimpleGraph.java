@@ -58,10 +58,10 @@ public final class SimpleGraph {
     return title + ": " + info;
   }
 
-  public Optional<String> findText(String value) {
+  public Optional<String> findText(String text) {
     return graph.getNodes().stream()
       .map(node -> (String) node.getValue())
-      .filter(str -> str.equals(value))
+      .filter(str -> str.equals(text))
       .findFirst();
   }
 }
