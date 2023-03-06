@@ -15,7 +15,7 @@ public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
   private boolean isFinished;
 
   @Override
-  public void initialize(Graph graph, Node start, Node goal) {
+  protected void initialize(Graph graph, Node start, Node goal) {
     this.graph = graph;
     this.start = start;
     this.goal = goal;
@@ -29,9 +29,9 @@ public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
   }
 
   @Override
-  public void stepNext() {
+  protected void stepNext() {
     if (isFinished) {
-      return;
+      throw new IllegalStateException("Search is already finished.");
     }
 
     var head = queue.remove(); // キューから先頭のノードを取り出す
@@ -53,14 +53,14 @@ public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
   }
 
   @Override
-  public boolean isFoundRoute() {
+  protected boolean isFoundRoute() {
     return isFinished;
   }
 
   @Override
-  public Route createRoute() {
+  protected Route createRoute() {
     if (!isFinished) {
-      return Route.empty();
+      throw new IllegalStateException("Search is not finished.");
     }
 
     var links = new ArrayList<Link>();
@@ -84,9 +84,9 @@ public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
     return new Route(links);
   }
 
-  public History createHistory() {
+  protected History createHistory() {
     if (!isFinished) {
-      return History.empty();
+      throw new IllegalStateException("Search is not finished.");
     }
     return new History(visited);
   }
