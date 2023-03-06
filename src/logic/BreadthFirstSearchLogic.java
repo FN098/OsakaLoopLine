@@ -4,7 +4,6 @@ import java.util.*;
 
 import model.*;
 
-// 幅優先探索
 public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
   private final Node start;
   private final Node goal;
@@ -13,6 +12,13 @@ public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
   private final Map<Node, Node> parents = new HashMap<>();  // 親ノードのマップ
   private boolean isFinished = false;
 
+  /**
+   * 幅優先探索オブジェクトを生成します。
+   * 
+   * @param graph 探索対象のグラフ
+   * @param from 出発地
+   * @param to 目的地
+   */
   public BreadthFirstSearchLogic(Graph graph, Object from, Object to) {
     super(graph, from, to);
 
@@ -25,9 +31,9 @@ public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
 
   @Override
   protected void initialize() {
-    this.queue.clear();
-    this.visited.clear();
-    this.parents.clear();
+    queue.clear();
+    visited.clear();
+    parents.clear();
     isFinished = false;
     
     queue.add(start); // スタートノードをキューに追加する
@@ -90,6 +96,7 @@ public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
     return new Route(links);
   }
 
+  @Override
   protected History createHistory() {
     if (!isFinished) {
       throw new IllegalStateException("Search is not finished.");
