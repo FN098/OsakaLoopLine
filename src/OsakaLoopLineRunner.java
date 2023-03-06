@@ -13,8 +13,8 @@ public class OsakaLoopLineRunner {
     System.out.println(osakaLoopLine.getInfo());
 
     // 始点と終点を入力
-    var from = readStation(osakaLoopLine, "始点を入力: ");
-    var to = readStation(osakaLoopLine, "終点を入力: ");
+    var from = readInputValue(osakaLoopLine, "始点を入力: ");
+    var to = readInputValue(osakaLoopLine, "終点を入力: ");
 
     // 幅優先探索でルートを検索
     var condition = new SearchCondition(graph, from, to);
@@ -29,21 +29,20 @@ public class OsakaLoopLineRunner {
     System.out.println("料金: " + result.getRoute().getTotalCost() + " 円");
   }
 
-  private static Station readStation(OsakaLoopLine osakaLoopLine, String message) {
+  private static Object readInputValue(OsakaLoopLine osakaLoopLine, String message) {
     System.out.print(message);
     var line = new ConsoleReader().readLine();
 
-    var station = osakaLoopLine.findStationByName(line);
-    if (station.isPresent()) {
-      return station.get();
+    var value = osakaLoopLine.findStationByName(line).orElse(null);
+    if (value != null) {
+      return value;
     }
 
-    station = osakaLoopLine.findStationByNumber(line);
-    if (station.isPresent()) {
-      return station.get();
+    value = osakaLoopLine.findStationByNumber(line).orElse(null);
+    if (value != null) {
+      return value;
     }
 
-    System.out.println("もう一度入力してください。");
-    return readStation(osakaLoopLine, message);
+    return readInputValue(osakaLoopLine, "もう一度入力してください。");
   }
 }
