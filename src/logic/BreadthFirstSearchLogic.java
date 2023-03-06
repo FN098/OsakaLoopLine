@@ -5,6 +5,7 @@ import java.util.*;
 import model.*;
 
 public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
+  private final Graph graph;
   private final Node start;
   private final Node goal;
   private final LinkedList<Node> queue = new LinkedList<>(); // BFSに使用するキュー
@@ -19,11 +20,12 @@ public final class BreadthFirstSearchLogic extends AbstractSearchLogic {
    * @param from 出発地
    * @param to 目的地
    */
-  public BreadthFirstSearchLogic(Graph graph, Object from, Object to) {
-    super(graph, from, to);
+  public BreadthFirstSearchLogic(SearchCondition condition) {
+    super(condition);
 
-    start = graph.findNodeByValue(from).orElse(null);
-    goal = graph.findNodeByValue(to).orElse(null);
+    graph = condition.getGraph();
+    start = graph.findNodeByValue(condition.getFrom()).orElse(null);
+    goal = graph.findNodeByValue(condition.getTo()).orElse(null);
     if (start == null || goal == null) {
       throw new IllegalArgumentException("Start or goal node is not found.");
     }

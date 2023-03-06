@@ -3,21 +3,10 @@ package logic;
 import model.*;
 
 public abstract class AbstractSearchLogic implements SearchLogic {
-  protected final Graph graph;
-  protected final Object from;
-  protected final Object to;
+  private final SearchCondition condition;
 
-  /**
-   * グラフ探索オブジェクトを生成します。
-   * 
-   * @param graph 探索対象のグラフ
-   * @param from 出発地
-   * @param to 目的地
-   */
-  public AbstractSearchLogic(Graph graph, Object from, Object to) {
-    this.graph = graph;
-    this.from = from;
-    this.to = to;
+  public AbstractSearchLogic(SearchCondition condition) {
+    this.condition = condition;
   }
 
   @Override
@@ -30,7 +19,7 @@ public abstract class AbstractSearchLogic implements SearchLogic {
 
     var route = createRoute();
     var history = createHistory();
-    return new SearchResult(graph, from, to, route, history);
+    return new SearchResult(condition, route, history);
   }
   
   /**
