@@ -1,11 +1,8 @@
-import java.io.*;
-
 import logic.*;
 import model.*;
+import util.ConsoleReader;
 
 public class OsakaLoopLineRunner {
-  private static final String CONSOLE_CHARSET_NAME = "shift-jis";
-
   public static void main(String[] args) {
     var osakaLoopLine = new OsakaLoopLine();
 
@@ -13,8 +10,8 @@ public class OsakaLoopLineRunner {
     System.out.println(osakaLoopLine.getInfo());
 
     // 始点と終点を入力
-    var from = readInput(osakaLoopLine, "始点を入力: ");
-    var to = readInput(osakaLoopLine, "終点を入力: ");
+    var from = readStation(osakaLoopLine, "始点を入力: ");
+    var to = readStation(osakaLoopLine, "終点を入力: ");
 
     // 幅優先探索でルートを検索
     var graph = osakaLoopLine.getGraph();
@@ -29,9 +26,9 @@ public class OsakaLoopLineRunner {
     System.out.println("料金: " + result.getRoute().getTotalCost() + " 円");
   }
 
-  private static Object readInput(OsakaLoopLine osakaLoopLine, String message) {
+  private static Station readStation(OsakaLoopLine osakaLoopLine, String message) {
     System.out.print(message);
-    var line = readLineFromConsole();
+    var line = new ConsoleReader().readLine();
 
     var station = osakaLoopLine.findStationByName(line);
     if (station.isPresent()) {
@@ -44,15 +41,6 @@ public class OsakaLoopLineRunner {
     }
 
     System.out.println("もう一度入力してください。");
-    return readInput(osakaLoopLine, message);
-  }
-
-  private static String readLineFromConsole() {
-    try {
-      var reader = new BufferedReader(new InputStreamReader(System.in, CONSOLE_CHARSET_NAME));
-      return reader.readLine();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    return readStation(osakaLoopLine, message);
   }
 }

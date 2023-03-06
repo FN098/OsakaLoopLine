@@ -1,11 +1,8 @@
-import java.io.*;
-
 import logic.*;
 import model.*;
+import util.ConsoleReader;
 
 public class SimpleGraphRunner {
-  private static final String CONSOLE_CHARSET_NAME = "shift-jis";
-
   public static void main(String[] args) {
     var simpleGraph = new SimpleGraph();
 
@@ -13,8 +10,8 @@ public class SimpleGraphRunner {
     System.out.println(simpleGraph.getInfo());
 
     // 始点と終点を入力
-    var from = readInput(simpleGraph, "始点を入力: ");
-    var to = readInput(simpleGraph, "終点を入力: ");
+    var from = readText(simpleGraph, "始点を入力: ");
+    var to = readText(simpleGraph, "終点を入力: ");
 
     // 幅優先探索でルートを検索
     var graph = simpleGraph.getGraph();
@@ -29,25 +26,16 @@ public class SimpleGraphRunner {
     System.out.println("料金: " + result.getRoute().getTotalCost() + " 円");
   }
 
-  private static Object readInput(SimpleGraph simpleGraph, String message) {
+  private static String readText(SimpleGraph simpleGraph, String message) {
     System.out.print(message);
-    var line = readLineFromConsole();
+    var line = new ConsoleReader().readLine();
 
-    var value = simpleGraph.findValue(line);
-    if (value.isPresent()) {
-      return value.get();
+    var text = simpleGraph.findText(line);
+    if (text.isPresent()) {
+      return text.get();
     }
 
     System.out.println("もう一度入力してください。");
-    return readInput(simpleGraph, message);
-  }
-
-  private static String readLineFromConsole() {
-    try {
-      var reader = new BufferedReader(new InputStreamReader(System.in, CONSOLE_CHARSET_NAME));
-      return reader.readLine();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    return readText(simpleGraph, message);
   }
 }
